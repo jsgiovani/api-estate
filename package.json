@@ -1,0 +1,15 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node index.js"
+  },
+  "author": "Giovani",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
