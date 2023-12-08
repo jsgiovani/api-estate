@@ -1,9 +1,12 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import dbConnect from './config/db.js';
 import userRoutes from './routes/userRoutes.js';
 import authRoutes from './routes/authRoutes.js';
+
+
 
 
 
@@ -36,6 +39,9 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 
+
+//cookies
+app.use(cookieParser());
 
 //routing
 app.use('/api/auth', authRoutes )

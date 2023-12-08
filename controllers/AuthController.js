@@ -53,7 +53,7 @@ const login = async (req, res, next) =>{
         const user = await User.findOne({email});
 
         if (!user) {
-            next(errorHandler(404, 'User not found'));
+            return next(errorHandler(404, 'User not found'));
         };
 
         //decrypt password
@@ -61,8 +61,9 @@ const login = async (req, res, next) =>{
         
         //if wrong password, return error
         if (!isPasswordOK) {
-            next(errorHandler(404, 'Wrong credentials'));
+            return next(errorHandler(404, 'Wrong credentials'));
         }
+
 
         //generate access token
         const token = jwt.sign({id:user._id}, process.env.JWT_SECRET);
@@ -70,7 +71,12 @@ const login = async (req, res, next) =>{
         const {password:pass, ...rest} = user._doc;
 
         //create cookie
-        res.cookie('access_token', token, {httpOnly:true}).status(200).json(rest);
+        res
+        .status(200)
+        .json({
+            "token":token,
+            "user":rest
+        });
 
 
     } catch (error) {
