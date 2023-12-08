@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import { errorHandler } from "../utils/error.js";
+import jwt from "jsonwebtoken";
 
 
 //register new user
@@ -12,12 +13,7 @@ const register = async (req, res, next) => {
     const isUsername = await User.findOne({username});
     
     if (isEmail || isUsername) {
-
-        const error = new Error('User registered before');
-        return res.status(400).json({
-            "error": true,
-            "message":error.message
-        });
+        next(errorHandler(404, 'User registered already'));
     }
 
 
@@ -41,8 +37,45 @@ const register = async (req, res, next) => {
 
 
 //login user
-const login = (req, res) =>{
-    res.send('login user')
+const login = async (req, res, next) =>{
+    
+    const {email, password} = req.body;
+
+    if (!email || !password) {
+        next(errorHandler(404, 'All fields are required'));
+    }
+
+
+
+
+    try {
+        
+        const user = await User.findOne({email});
+
+        if (!user) {
+            next(errorHandler(404, 'User not found'));
+        };
+
+        //decrypt password
+        const isPasswordOK = await user.passwordValidate(password);
+        
+        //if wrong password, return error
+        if (!isPasswordOK) {
+            next(errorHandler(404, 'Wrong credentials'));
+        }
+
+        //generate access token
+        const token = jwt.sign({id:user._id}, process.env.JWT_SECRET);
+        
+        const {password:pass, ...rest} = user._doc;
+
+        //create cookie
+        res.cookie('access_token', token, {httpOnly:true}).status(200).json(rest);
+
+
+    } catch (error) {
+        next(error);
+    }
 }
 
 
