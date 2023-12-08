@@ -11,8 +11,8 @@ const register = async (req, res) => {
     const isUsername = await User.findOne({username});
     
     if (isEmail || isUsername) {
-        const error = new Error('User registered before');
 
+        const error = new Error('User registered before');
         return res.status(400).json({
             "error": true,
             "message":error.message
@@ -22,18 +22,19 @@ const register = async (req, res) => {
 
     try {
         const user = new User(req.body);
-        const insertUser = await user.save();
+        await user.save();
 
-        res.json({
-            
+        res.status(201).json({
             "error": false,
-            user:insertUser
+            "status": true,
+            message:'User registered succesfully'
         });
 
 
     } catch (error) {
-        res.json({
-            error
+        return res.status(400).json({
+            "error": true,
+            "message":"please insert all info"
         });
     }
    
