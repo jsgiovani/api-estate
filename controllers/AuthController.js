@@ -1,8 +1,9 @@
 import User from "../models/User.js";
+import { errorHandler } from "../utils/error.js";
 
 
 //register new user
-const register = async (req, res) => {
+const register = async (req, res, next) => {
 
     const {email,username} = req.body;
 
@@ -32,13 +33,12 @@ const register = async (req, res) => {
 
 
     } catch (error) {
-        return res.status(400).json({
-            "error": true,
-            "message":"please insert all info"
-        });
+       next(errorHandler(404, 'All fields are required'));
     }
    
 }
+
+
 
 //login user
 const login = (req, res) =>{

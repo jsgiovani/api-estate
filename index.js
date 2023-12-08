@@ -21,6 +21,10 @@ const whiteList = [process.env.FRONT_END_URL];
 
 const corsOptions = {
     origin: function(origin, callback) {
+        if(!origin){//for bypassing postman req with  no origin
+            return callback(null, true);
+        }
+
         if (whiteList.includes(origin)) {
             callback(null, true);
         }else{
@@ -38,8 +42,21 @@ app.use('/api/auth', authRoutes )
 app.use('/api/users', userRoutes);
 
 
+app.use((err, req, res, next) =>{
+    
+    const statusCode = err.statusCode || 500;
+    const message = err.message || 'Internal Server Error';
+
+    return res.status(statusCode).json({
+        success:false,
+        statusCode,
+        message
+    });
+});
 
 //start server
 app.listen(3000, ()=>{
     console.log('conected to port 3000');
 });
+
+
