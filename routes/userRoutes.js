@@ -1,15 +1,13 @@
 import express from 'express';
+import { update } from '../controllers/UserController.js';
+import { verifyToken } from '../utils/veriyUser.js';
 
 
 const router = express.Router();
 
 
-router.get('/', (req, res) => {
-    res.send('desde api/usuarios')
-});
 
-
-
+router.put('/:id', verifyToken, update);
 
 
 export default router;

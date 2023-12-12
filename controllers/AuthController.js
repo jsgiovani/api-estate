@@ -72,6 +72,7 @@ const login = async (req, res, next) =>{
 
         //create cookie
         res
+        .cookie('access_token', token, {httpOnly:true})
         .status(200)
         .json({
             "token":token,
