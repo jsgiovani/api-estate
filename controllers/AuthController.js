@@ -41,13 +41,6 @@ const login = async (req, res, next) =>{
     
     const {email, password} = req.body;
 
-    if (!email || !password) {
-        next(errorHandler(404, 'All fields are required'));
-    }
-
-
-
-
     try {
         
         const user = await User.findOne({email});
@@ -72,11 +65,10 @@ const login = async (req, res, next) =>{
 
         //create cookie
         res
-        .cookie('access_token', token, {httpOnly:true})
         .status(200)
         .json({
-            "token":token,
-            "user":rest
+            "user":rest,
+            'token':token
         });
 
 

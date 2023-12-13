@@ -1,10 +1,11 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import cookieParser from 'cookie-parser';
 import dbConnect from './config/db.js';
 import userRoutes from './routes/userRoutes.js';
 import authRoutes from './routes/authRoutes.js';
+import cookieParser from 'cookie-parser';
+import  session  from 'express-session';
 
 
 
@@ -13,12 +14,33 @@ import authRoutes from './routes/authRoutes.js';
 const app = express();
 app.use(express.json());
 
+
+app.use(
+    session({
+        resave:false,
+        saveUninitialized:false,
+        secret:'session',
+        cookie:{
+            maxAge:1000*60*60,
+            sameSite:'none',
+            secure:true
+        },
+        
+    })
+);
+
 dotenv.config();
+
+
+//cookies
+app.use(cookieParser());
 
 //connect to db
 dbConnect();
 
 //allow CORS Origins
+
+
 
 const whiteList = [process.env.FRONT_END_URL];
 
@@ -33,15 +55,19 @@ const corsOptions = {
         }else{
             callback(new Error('Cors Error'));
         }
-    }
+    },
+    credentials:true,
 }
 
 app.use(cors(corsOptions));
+app.use(cors({
+    origin: process.env.FRONT_END_URL,
+    credentials: true,
+}))
 
 
 
-//cookies
-app.use(cookieParser());
+
 
 //routing
 app.use('/api/auth', authRoutes )

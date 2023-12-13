@@ -3,6 +3,7 @@ import { errorHandler } from "../utils/error.js";
 
 const update = async (req, res, next) =>{
 
+
     if (req.user.id !== req.params.id) return next(errorHandler(401, 'Unauthorized')); 
 
     try {
@@ -19,8 +20,10 @@ const update = async (req, res, next) =>{
         const {password, ...rest} = updatedUser._doc;
 
 
-        res.status(200).json({
-            "data":rest
+        res
+        .status(200)
+        .json({
+            "user":rest
         });
         
 
