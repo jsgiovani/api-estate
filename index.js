@@ -6,6 +6,7 @@ import userRoutes from './routes/userRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import cookieParser from 'cookie-parser';
 import  session  from 'express-session';
+import propertyRoutes from './routes/propertyRoutes.js';
 
 
 
@@ -72,6 +73,7 @@ app.use(cors({
 //routing
 app.use('/api/auth', authRoutes )
 app.use('/api/users', userRoutes);
+app.use('/api/properties', propertyRoutes);
 
 
 app.use((err, req, res, next) =>{
