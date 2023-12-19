@@ -41,8 +41,61 @@ const remove = async (req,res, next) =>{
 }
 
 
+const show = async (req, res, next) => {
+
+    const property = await Property.findById(req.params.id);
+
+    if (!property) return next(errorHandler(404, 'Property not found!'));
+
+    try {
+        
+
+        res
+        .status(200)
+        .json(property);
+
+    } catch (error) {
+        return next(error);
+    }
+
+}
+
+
+const update = async (req, res, next) => {
+
+    const property = await Property.findById(req.params.id);
+
+    if (!property) return next(errorHandler(404, 'Property not found!'));
+
+
+    if (req.user.id !== property.userRef) return next(errorHandler(401, 'You can only update your own properties')); 
+
+
+    try {
+        const updatedProperty = await Property.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true }
+        );
+
+        res
+        .status(200)
+        .json(updatedProperty);
+
+    } catch (error) {
+        return next(error);
+    }
+
+}
+
+
+
+
 export{
     index,
     store,
-    remove
+    remove,
+    show,
+    update
+
 }
