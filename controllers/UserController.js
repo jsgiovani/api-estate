@@ -1,3 +1,4 @@
+import Property from "../models/Property.js";
 import User from "../models/User.js";
 import { errorHandler } from "../utils/error.js";
 
@@ -50,6 +51,21 @@ const remove = async (req, res, next) => {
         return next(error);
     }
 
-} 
+}
 
-export {update, remove};
+
+const index = async(req, res, next) =>{
+    // if (req.user.id !== req.params.id) return next(errorHandler(401, 'You can only view your own properties'));
+
+    try {
+        const properties = await Property.find({userRef:req.params.id});
+        res.status(200).json(properties);
+        
+    } catch (error) {
+        return next(error);
+    }
+
+
+}
+
+export {update, remove, index};
