@@ -68,8 +68,24 @@ const index = async(req, res, next) =>{
 
 }
 
+//find user by id
+const show = async (req, res, next) => {
+    
+    try {
+
+        const user =  await User.findById(req.params.id);
+
+        if (!user) return next(errorHandler(401, 'User not found!')); 
+        
+        const {password:pass, ...rest} = user._doc;
+        res.status(200).json(rest);
+    } catch (error) {
+        return next(error);
+    }
+}
 
 
 
 
-export {update, remove, index};
+
+export {update, remove, index, show};
