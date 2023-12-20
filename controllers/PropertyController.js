@@ -12,10 +12,12 @@ const index = async (req, res, next) => {
 //create
 const store = async (req, res, next) => {
 
+
+
     try {
         const property = await Property.create(req.body);
         
-        return res.status(201).json(property)
+        res.status(201).json(property)
         
     } catch (error) {
         next(error);
