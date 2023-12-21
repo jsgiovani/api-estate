@@ -1,6 +1,6 @@
 import express from 'express';
 import { verifyToken } from '../utils/veriyUser.js';
-import { index, remove, store, show, update } from '../controllers/PropertyController.js';
+import { index, remove, store, show, update, search } from '../controllers/PropertyController.js';
 
 
 const router = express.Router();
