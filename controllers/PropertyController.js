@@ -97,7 +97,7 @@ const search = async (req, res, next) =>{
    try {
 
     //query parameters
-    const limit = parseInt(req.query.limit) || 9;
+    const limit = parseInt(req.query.limit) || 3;
     const startIndex = parseInt(req.query.startIndex) || 0;
 
     let offer = req.query.offer;
