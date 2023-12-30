@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node api/index.js",
+    
     "dev": "nodemon node index.js",
     "build":"npm install"
   },
