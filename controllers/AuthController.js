@@ -141,9 +141,8 @@ const google = async(req, res, next) =>{
 const logout = async (req, res, next) => {
    
     try {
-
         res
-        .status(200).json('user logeed out');
+        .status(200).json('user logged out succesfully');
 
     } catch (error) {
         return next(error);
