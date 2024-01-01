@@ -9,7 +9,7 @@ const dbConnect = async() =>{
         console.log(`Mongo DB connected to: ${url}`); 
 
     } catch (error) {
-        console.log(error);
+        console.log('error connecting to mongo db',error);
         process.exit(1);
     }
 }
