@@ -4,7 +4,6 @@ import cors from 'cors';
 import dbConnect from './config/db.js';
 import userRoutes from './routes/userRoutes.js';
 import authRoutes from './routes/authRoutes.js';
-import cookieParser from 'cookie-parser';
 import propertyRoutes from './routes/propertyRoutes.js';
 import { search } from './controllers/PropertyController.js';
 
@@ -13,9 +12,6 @@ app.use(express.json());
 
 dotenv.config();
 
-
-//cookies
-app.use(cookieParser());
 
 
 //connect to db
@@ -72,5 +68,3 @@ app.use((err, req, res, next) =>{
 app.listen(3000, ()=>{
     console.log('conected to port 3000');
 });
-
-
