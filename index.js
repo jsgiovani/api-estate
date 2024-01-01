@@ -5,31 +5,11 @@ import dbConnect from './config/db.js';
 import userRoutes from './routes/userRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import cookieParser from 'cookie-parser';
-import  session  from 'express-session';
 import propertyRoutes from './routes/propertyRoutes.js';
 import { search } from './controllers/PropertyController.js';
 
-
-
-
-
 const app = express();
 app.use(express.json());
-
-
-app.use(
-    session({
-        resave:false,
-        saveUninitialized:false,
-        secret:'session',
-        cookie:{
-            maxAge:1000*60*60,
-            sameSite:'none',
-            secure:true
-        },
-        
-    })
-);
 
 dotenv.config();
 
@@ -37,13 +17,12 @@ dotenv.config();
 //cookies
 app.use(cookieParser());
 
+
 //connect to db
 dbConnect();
 
+
 //allow CORS Origins
-
-
-
 const whiteList = [process.env.FRONT_END_URL];
 
 const corsOptions = {
@@ -61,14 +40,12 @@ const corsOptions = {
     credentials:true,
 }
 
+
 app.use(cors(corsOptions));
 app.use(cors({
     origin: process.env.FRONT_END_URL,
     credentials: true,
 }))
-
-
-
 
 
 //routing
@@ -89,6 +66,7 @@ app.use((err, req, res, next) =>{
         message
     });
 });
+
 
 //start server
 app.listen(3000, ()=>{
